@@ -27,22 +27,21 @@ const Cart = (): JSX.Element => {
 
   const total = formatPrice(
     cart.reduce((sumTotal, product) => {
-      sumTotal += product.price * product.amount;
-      return sumTotal;
+      return sumTotal + product.price * product.amount;
     }, 0)
   );
 
   function handleProductIncrement(product: Product) {
     updateProductAmount({
-      amount: 1,
       productId: product.id,
+      amount: product.amount + 1,
     });
   }
 
   function handleProductDecrement(product: Product) {
     updateProductAmount({
-      amount: -1,
       productId: product.id,
+      amount: product.amount - 1,
     });
   }
 

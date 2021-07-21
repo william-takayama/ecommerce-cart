@@ -10,11 +10,9 @@ export const productService = {
       const response = await api.get<Product[]>("/products");
 
       if (!(response.status === 200)) {
-        const message = `An error has occurred while loading products: ${response.status}`;
-        toast(message, {
-          type: "error",
-        });
-        throw new Error(message);
+        // const message = `An error has occurred while loading products: ${response.status}`;
+        toast.error("Erro no carregamento dos produtos");
+        return;
       }
 
       const productsResponse = response.data;
@@ -23,16 +21,11 @@ export const productService = {
         priceFormatted: formatPrice(product.price),
       }));
 
-      toast("Products loaded successfully!", {
-        type: "success",
-      });
+      toast.success("Products loaded successfully!");
 
       return fProducts;
     } catch (e) {
-      toast(`An error has occurred ${e.message}`, {
-        type: "error",
-      });
-      // console.error(e.message);
+      toast.error("Erro no carregamento dos produtos");
     }
   },
   async getProductById(productId: number) {
@@ -44,21 +37,16 @@ export const productService = {
       });
 
       if (!(productResponse.status === 200)) {
-        const message = `An error has occurred while getting your product ${productId}: ${productResponse.status}`;
-        toast(message, {
-          type: "error",
-        });
-        throw new Error(message);
+        // const message = `An error has occurred while getting your product ${productId}: ${productResponse.status}`;
+        toast.error("Erro na adição do produto");
+        return;
       }
 
       const [productItem] = productResponse.data;
 
       return productItem;
     } catch (e) {
-      toast(e.message, {
-        type: "error",
-      });
-      // console.error(e.message);
+      toast.error("Erro na adição do produto");
     }
   },
   async getStockFromProductById(productId: number) {
@@ -71,20 +59,14 @@ export const productService = {
 
       if (!(stockResponse.status === 200)) {
         // const message = `An error has occurred while checking stock for ${productId}: ${stockResponse.status}`;
-        const message = "Quantidade solicitada fora de estoque";
-        toast(message, {
-          type: "error",
-        });
-        throw new Error(message);
+        toast.error("Quantidade solicitada fora de estoque");
+        return;
       }
       const [{ amount }] = stockResponse.data;
 
       return amount;
     } catch (e) {
-      toast("Quantidade solicitada fora de estoque", {
-        type: "error",
-      });
-      // console.error(e.message);
+      toast.error("Quantidade solicitada fora de estoque");
     }
   },
 };
